@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -108,11 +108,11 @@ class RequiredFieldsViewController: IdentityUIViewController {
     }
 
     @objc func didTapNext() {
-        self.gotoInput(at: (self.currentInputIndex.addingReportingOverflow(1).partialValue) % UInt(self.viewModel.supportedRequiredFields.count))
+        self.gotoInput(at: self.currentInputIndex.addingReportingOverflow(1).partialValue % UInt(self.viewModel.supportedRequiredFields.count))
     }
 
     @objc func didTapPrevious() {
-        self.gotoInput(at: (self.currentInputIndex.subtractingReportingOverflow(1).partialValue) % UInt(self.viewModel.supportedRequiredFields.count))
+        self.gotoInput(at: self.currentInputIndex.subtractingReportingOverflow(1).partialValue % UInt(self.viewModel.supportedRequiredFields.count))
     }
 
     override func viewDidLayoutSubviews() {

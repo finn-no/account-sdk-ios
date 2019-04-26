@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -139,7 +139,7 @@ private struct Initialize {
         #if DEBUG
             SDKConfiguration.shared.invalidateteAuthTokenAfterSuccessfullRequest = true
         #endif
-        Logger.shared.addTransport({ print($0) })
+        Logger.shared.addTransport { print($0) }
         Logger.shared.outputTags = true
     }
 }

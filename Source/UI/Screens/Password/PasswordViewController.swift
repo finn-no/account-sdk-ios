@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -176,7 +176,7 @@ class PasswordViewController: IdentityUIViewController {
 
     @IBAction func didClickContinue(_: Any) {
         self.configuration.tracker?.interaction(.submit, with: self.trackerScreenID, additionalFields: [.keepLoggedIn(self.shouldPersistUserCheck.isChecked)])
-        guard let password = self.password.text, ((self.viewModel.loginFlowVariant == .signin && password.count >= 1) || password.count >= 8) else {
+        guard let password = self.password.text, (self.viewModel.loginFlowVariant == .signin && password.count >= 1) || password.count >= 8 else {
             self.showInlineError(.passwordTooShort)
             return
         }

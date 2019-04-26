@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -96,14 +96,14 @@ public struct PhoneNumber: IdentifierProtocol {
             return nil
         }
 
-        guard string.count > 0 && string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else {
+        guard string.count > 0, string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else {
             return nil
         }
         return "+" + string
     }
 
     private static func normalizeCountryCode(_ value: String) -> String? {
-        if !value.hasPrefix("+") && !value.hasPrefix("00") {
+        if !value.hasPrefix("+"), !value.hasPrefix("00") {
             return self.normalizeFullNumber("+" + value)
         } else {
             return self.normalizeFullNumber(value)
@@ -112,7 +112,7 @@ public struct PhoneNumber: IdentifierProtocol {
 
     private static func normalizeNumberComponent(_ value: String) -> String? {
         let digits = value.filter { $0 != " " }
-        guard digits.count > 0 && digits.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else {
+        guard digits.count > 0, digits.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else {
             return nil
         }
         return digits

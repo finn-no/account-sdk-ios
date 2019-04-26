@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -54,7 +54,7 @@ extension StatusViewController: IdentityUIDelegate {
     }
 
     func willPresent(flow: LoginMethod.FlowVariant) -> LoginFlowDisposition {
-        if self.loginOnlySwitch.isOn && flow == .signup {
+        if self.loginOnlySwitch.isOn, flow == .signup {
             return .showError(
                 title: "Custom error",
                 description: "It's my desc and I'll do what I want"
@@ -92,6 +92,7 @@ class StatusViewController: UIViewController {
     @IBOutlet var offlineModeSwitch: UISwitch!
     @IBOutlet var loginOnlySwitch: UISwitch!
     @IBOutlet var postOauthFailSwitch: UISwitch!
+    @IBOutlet var touchIDSwitch: UISwitch!
 
     @IBAction func offlineModeValueChanged(_: UISwitch) {
         UIApplication.offlineMode = self.offlineModeSwitch.isOn
@@ -106,6 +107,11 @@ class StatusViewController: UIViewController {
     }
 
     @IBAction func didClickPasswordLogin(_: Any) {
+        if self.touchIDSwitch.isOn {
+            UIApplication.identityUI.configuration.useBiometrics(true)
+        } else {
+            UIApplication.identityUI.configuration.useBiometrics(false)
+        }
         UIApplication.identityUI.presentIdentityProcess(
             from: self,
             loginMethod: .password,
@@ -192,6 +198,7 @@ class StatusViewController: UIViewController {
     func updateFromCurrentUser() {
         self.userStateLabel.text = self.isUserLoggedIn ? "yes" : "no"
         self.userIDLabel.text = String(describing: UIApplication.currentUser)
+        self.touchIDSwitch.setOn(UIApplication.identityUI.configuration.useBiometrics, animated: true)
         self.session = URLSession(user: UIApplication.currentUser, configuration: URLSessionConfiguration.default)
     }
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -43,7 +43,7 @@ class TokenExchangeViewController: UIViewController {
     }
     @IBAction func requestCodeForWebSessionInit(_: UIButton) {
         // likely to set a path and/or query here
-        //let redirectURL = URL(string: "/...", relativeTo: identityManager.configuration.redirectBaseURL)!
+        // let redirectURL = URL(string: "/...", relativeTo: identityManager.configuration.redirectBaseURL)!
         let redirectURL = UIApplication.identityManager.clientConfiguration.redirectBaseURL(withPathComponent: nil)
         UIApplication.currentUser.auth.webSessionURL(
             clientID: UIApplication.identityManager.clientConfiguration.clientID,

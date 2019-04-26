@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -23,6 +23,7 @@ enum Router {
     case requiredFields(userID: String)
     case client(clientID: String)
     case product(userID: String, productID: String)
+    case devices
 
     var method: Networking.HTTPMethod {
         switch self {
@@ -60,6 +61,8 @@ enum Router {
             return .GET
         case .product:
             return .GET
+        case .devices:
+            return .POST
         }
     }
 
@@ -113,6 +116,8 @@ enum Router {
             return "/api/2/user/\(userID)/required_fields"
         case let .product(userID, productID):
             return "/api/2/user/\(userID)/product/\(productID)"
+        case .devices:
+            return "/api/2/devices"
         }
     }
 }

@@ -1,10 +1,11 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
 
+// swiftlint:disable line_length
 /**
  Configuration for your client. Allows client to set their ID and decide
  which backend environment to point the SDK at.
@@ -43,12 +44,11 @@ import Foundation
 
  - SeeAlso: [SPiD selfservice](http://techdocs.spid.no/selfservice/access/)
  - SeeAlso: [Apple docs: Inter App Communication](
-        https://developer.apple.com/library/content/documentation/iPhone/Conceptual/
-iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#
-//apple_ref/doc/uid/TP40007072-CH6-SW1)
-
+        https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW1)
  */
 public struct ClientConfiguration {
+    // swiftlint:enable line_length
+
     /**
      Determines which backend requests will be sent to. Most of the values here are
      explained on the SPiD self service site where you also must set up your client.
@@ -121,6 +121,10 @@ public struct ClientConfiguration {
      Which environment (if any) is this configuration using
      */
     public let environment: Environment?
+    /// The bundle name of the application
+    internal let appName: String
+    /// The bundle version of the application
+    internal let appVersion: String
 
     /**
      Alternative initializer if you do not want to specify a pre-existing `Environment`. Usually used for testing.
@@ -163,6 +167,14 @@ public struct ClientConfiguration {
         self.appURLScheme = appURLScheme ?? defaultAppURLScheme
         self.defaultAppURLScheme = defaultAppURLScheme
         self.environment = environment
+        guard let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String else {
+            preconditionFailure("Could not fetch bundle name.")
+        }
+        self.appName = name
+        guard let version = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String else {
+            preconditionFailure("Could not fetch bundle version.")
+        }
+        self.appVersion = version
         precondition(self.appURLScheme.contains(self.clientID), "Valid appURLSchemes must contain the clientID in it")
     }
 

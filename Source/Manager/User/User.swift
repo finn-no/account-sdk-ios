@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -50,6 +50,9 @@ public class User: UserProtocol {
 
     /// Provides access to this user's profile data
     public internal(set) var profile: UserProfileAPI
+
+    /// Provides access to this user's device data
+    internal var device: UserDeviceAPI
 
     /// Provides access to the state of this user's terms acceptance
     public internal(set) var agreements: UserAgreementsAPI
@@ -127,16 +130,19 @@ public class User: UserProtocol {
         let userAgreements = User.Agreements()
         let userAssets = User.Assets()
         let userProfile = User.Profile()
+        let userDevice = User.Device()
         let userProduct = User.Product()
         self.auth = userAuth
         self.agreements = userAgreements
         self.assets = userAssets
         self.profile = userProfile
+        self.device = userDevice
         self.product = userProduct
         userAuth.user = self
         userAgreements.user = self
         userAssets.user = self
         userProfile.user = self
+        userDevice.user = self
         userProduct.user = self
         self.taskManager = TaskManager(for: self)
         User.globalStore[ObjectIdentifier(self).hashValue] = self
@@ -377,7 +383,7 @@ extension User.Failure: CustomStringConvertible {
         case let .missingToken(accessToken, refreshToken):
             let a: String? = accessToken == nil ? "accessToken" : nil
             let r: String? = refreshToken == nil ? "refreshToken" : nil
-            let tokens = [a, r].filter { return $0 != nil }.map { $0! }
+            let tokens = [a, r].filter { $0 != nil }.map { $0! }
             return "Did not find all expected tokens. Missing - \(tokens.joined(separator: ","))"
         case .missingUserID:
             return "IDToken and userID missing. One required"

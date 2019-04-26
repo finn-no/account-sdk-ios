@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -120,7 +120,7 @@ public enum Identifier: IdentifierProtocol {
          ]
 
          It is stored in an array so it can be used as a FIFO
-        */
+         */
 
         // First check if we already have a key mapping for this identifier
         var array = (Settings.value(forKey: Identifier.mappingsKey) as? [JSONObject]) ?? []

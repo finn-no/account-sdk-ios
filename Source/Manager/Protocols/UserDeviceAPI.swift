@@ -5,7 +5,9 @@
 
 import Foundation
 
-protocol IdentifierProtocol {
-    var originalString: String { get }
-    var normalizedString: String { get }
+///
+internal protocol UserDeviceAPI {
+    ///
+    @discardableResult
+    func update(_ device: UserDevice, completion: @escaping NoValueCallback) -> TaskHandle
 }

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -21,8 +21,8 @@ class IdentityAPI {
         let block: ((Result<T, ClientError>) -> Void) = { [weak self] result in
             if retry > 0,
                 case let .failure(.networkingError(error as NSError)) = result,
-                ((error.domain == NSURLErrorDomain && error.code == NSURLErrorNetworkConnectionLost) ||
-                    (error.domain == NSPOSIXErrorDomain && error.code == POSIXError.ECONNABORTED.rawValue)) {
+                (error.domain == NSURLErrorDomain && error.code == NSURLErrorNetworkConnectionLost) ||
+                (error.domain == NSPOSIXErrorDomain && error.code == POSIXError.ECONNABORTED.rawValue) {
                 self?.requestWithRetries(retry: retry - 1,
                                          router: router,
                                          formData: formData,
@@ -229,6 +229,15 @@ class IdentityAPI {
         requestWithRetries(router: .updateProfile(userID: userID), formData: formData, headers: [.authorization: oauthToken.bearer], completion: completion)
     }
 
+    internal func updateUserDevice(
+        oauthToken: String,
+        device: UserDevice,
+        completion: @escaping ((Result<UserDeviceHash, ClientError>) -> Void)
+    ) {
+        let formData = device.formData()
+        requestWithRetries(router: .devices, formData: formData, headers: [.authorization: oauthToken.bearer], completion: completion)
+    }
+
     func validateCode(clientID: String,
                       clientSecret: String,
                       identifier: String,
@@ -359,6 +368,8 @@ class IdentityAPI {
             return .tooManyRequests
         case let .object("ApiException", .string(string), 400) where string.contains("valid phone number"):
             return .invalidPhoneNumber
+        case let .object("ApiException", .string(string), 400) where string.contains("Invalid payload data"):
+            return .invalidDevicePayloadData
         case let .object("ApiException", .string(string), 302):
             return .alreadyRegistered(message: string)
         case let .object("ApiException", .string(string), 404) where string == "No access to that product.":

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -76,7 +76,7 @@ class TermsViewController: IdentityUIViewController {
         let termOneAccepted = self.termOneCheck.isChecked
         let termTwoAccepted = self.termTwoCheck.isChecked
 
-        guard termOneAccepted && termTwoAccepted else {
+        guard termOneAccepted, termTwoAccepted else {
             self.termsNeedsAccept(termOne: !termOneAccepted, termTwo: !termTwoAccepted)
             return
         }

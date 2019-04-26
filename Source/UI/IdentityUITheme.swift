@@ -1,12 +1,12 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
 
 /**
-  Can be used to customize the UI
+ Can be used to customize the UI
  */
 public struct IdentityUITheme {
     /// Default UI theme object

@@ -7,25 +7,24 @@ import Foundation
 
 extension User {
     /**
-     Gives you access to product related information for a user
+     Gives you access to user device related information
      */
-    public class Product: UserProductAPI {
+    public class Device: UserDeviceAPI {
         weak var user: UserProtocol?
 
         /**
-         Retrieve the user product data.
+         Update the user device data, creating a new device fingerprint.
 
-         - parameter productID: which product to fetch information for
-         - parameter completion: a callback that receives the UserProduct or an error.
+         - parameter completion: a callback that's called on completion and might receive an error.
          */
         @discardableResult
-        public func fetch(productID: String, completion: @escaping (Result<UserProduct, ClientError>) -> Void) -> TaskHandle {
+        public func update(_ device: UserDevice, completion: @escaping NoValueCallback) -> TaskHandle {
             guard let user = self.user as? User else {
                 completion(.failure(.invalidUser))
                 return NoopTaskHandle()
             }
             return user.taskManager.add(
-                task: FetchUserProductTask(user: user, productID: productID),
+                task: UpdateUserDeviceTask(user: user, device: device),
                 completion: completion
             )
         }

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -84,5 +84,20 @@ extension PasswordViewModel {
 
     var createAccount: String {
         return "PasswordScreenString.createAccount".localized(from: self.localizationBundle)
+    }
+    var biometricsPrompt: String {
+        return "PasswordScreenString.biometricsPrompt".localized(from: self.localizationBundle)
+    }
+    var biometricsOnboardingTitle: String {
+        return "PasswordScreenString.biometricsOnboarding.title".localized(from: self.localizationBundle)
+    }
+    var biometricsOnboardingMessage: String {
+        return "PasswordScreenString.biometricsOnboarding.message".localized(from: self.localizationBundle)
+    }
+    var biometricsOnboardingAccept: String {
+        return "PasswordScreenString.biometricsOnboarding.accept".localized(from: self.localizationBundle)
+    }
+    var biometricsOnboardingRefuse: String {
+        return "PasswordScreenString.biometricsOnboarding.refuse".localized(from: self.localizationBundle)
     }
 }

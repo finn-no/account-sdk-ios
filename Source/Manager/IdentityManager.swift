@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -14,7 +14,7 @@ private extension Array where Element: Hashable {
 /**
  This delegate informs you of changes within the `IdentityManager`.
  */
-public protocol IdentityManagerDelegate: class {
+public protocol IdentityManagerDelegate: AnyObject {
     /**
      Informs you when the state of `IdentityManager.currentUser` changes
 
@@ -310,7 +310,7 @@ public class IdentityManager: IdentityManagerProtocol {
             maybePhone == nil ? .unavailable : .unsent,
         ]
 
-        if callbackStatuses[0] == .unavailable && callbackStatuses[1] == .unavailable {
+        if callbackStatuses[0] == .unavailable, callbackStatuses[1] == .unavailable {
             struct NothingToValidate: Error {}
             completion(.failure(ClientError.unexpected(NothingToValidate())))
             return
@@ -551,6 +551,12 @@ public class IdentityManager: IdentityManagerProtocol {
                 userID: tokens.userID,
                 makePersistent: persistUser
             )
+            let device = UserDevice(
+                applicationName: clientConfiguration.appName,
+                applicationVersion: clientConfiguration.appVersion
+            )
+
+            self.currentUser.device.update(device, completion: { _ in })
             PasswordlessTokenStore.clear()
             self.dispatchIfSelf {
                 completion?(.success(()))

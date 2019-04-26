@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -139,7 +139,7 @@ public class IdentityUI {
     lazy var navigationController: UINavigationController = {
         DismissableNavigationController { [weak self] in
             // Ensure we're not nil and that we are the prsenting identityUI
-            guard self != nil && IdentityUI.presentedIdentityUI === self else { return }
+            guard self != nil, IdentityUI.presentedIdentityUI === self else { return }
             self?.complete(with: .cancel, presentingViewController: self?.navigationController.presentingViewController)
         }
     }()

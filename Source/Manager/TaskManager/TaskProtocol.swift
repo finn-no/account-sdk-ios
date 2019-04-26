@@ -1,11 +1,11 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
 
-protocol TaskProtocol: class {
+protocol TaskProtocol: AnyObject {
     associatedtype SuccessType
     func execute(completion: @escaping (Result<SuccessType, ClientError>) -> Void)
     func shouldRefresh(result: Result<SuccessType, ClientError>) -> Bool

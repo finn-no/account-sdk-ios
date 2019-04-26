@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -17,7 +17,7 @@ extension Networking {
                 guard let data = data else {
                     throw NetworkingError.noData(response.statusCode)
                 }
-                if expectedStatuses.count > 0 && !expectedStatuses.contains(response.statusCode) {
+                if expectedStatuses.count > 0, !expectedStatuses.contains(response.statusCode) {
                     throw NetworkingError.unexpectedStatus(status: response.statusCode, data: data)
                 }
                 return data

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -8,7 +8,7 @@ import Foundation
 /**
  Provided for testing and mocking purposes. See `User` for field descriptions.
  */
-public protocol UserProtocol: class {
+public protocol UserProtocol: AnyObject {
     ///
     var delegate: UserDelegate? { get set }
     ///

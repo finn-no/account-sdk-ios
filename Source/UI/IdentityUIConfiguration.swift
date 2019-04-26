@@ -1,9 +1,13 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+
+private struct Constants {
+    static let BiometricsSettingsKey = "Identity.useBiometrics"
+}
 
 /**
  Configuration to start an identity UI flow
@@ -19,6 +23,15 @@ public struct IdentityUIConfiguration {
     public let tracker: TrackingEventsHandler?
     /// This determines whether you want to allow the user to dismiss the login flow
     public let isCancelable: Bool
+    /// This determines whether you want to allow the user to use biometric login
+    public let enableBiometrics: Bool
+    /// This determines whether the user wants to use biometric login, defaults to false
+    public var useBiometrics: Bool {
+        guard let value = Settings.value(forKey: Constants.BiometricsSettingsKey) as? Bool else {
+            return false
+        }
+        return value
+    }
     /// This will be given the navigationController we use internally before we start presentation incase you want to customize
     /// certain aspects
     public let presentationHook: ((UIViewController) -> Void)?
@@ -56,12 +69,14 @@ public struct IdentityUIConfiguration {
      - parameter tracker: Required implementation of the trackinge events handler
      - parameter localizationBundle: If you have any custom localizations you want to use
      - parameter appName: If you want to customize the app name display in the UI
-    */
+     - parameter enableBiometrics: If you want to enable authentication using biometrics
+     */
     public init(
         clientConfiguration: ClientConfiguration,
         theme: IdentityUITheme = .default,
         isCancelable: Bool = true,
         isSkippable: Bool = false,
+        enableBiometrics: Bool = false,
         presentationHook: ((UIViewController) -> Void)? = nil,
         tracker: TrackingEventsHandler? = nil,
         localizationBundle: Bundle? = nil,
@@ -73,6 +88,7 @@ public struct IdentityUIConfiguration {
         self.isSkippable = isSkippable
         self.presentationHook = presentationHook
         self.localizationBundle = localizationBundle ?? IdentityUI.bundle
+        self.enableBiometrics = enableBiometrics
         self.tracker = tracker
         if let appName = appName {
             self.appName = appName
@@ -89,11 +105,13 @@ public struct IdentityUIConfiguration {
      - parameter tracker: Required implementation of the trackinge events handler
      - parameter localizationBundle: If you have any custom localizations you want to use
      - parameter appName: If you want to customize the app name display in the UI
-    */
+     - parameter enableBiometrics: If you want to enable biometrics authentication
+     */
     public func replacing(
         theme: IdentityUITheme? = nil,
         isCancelable: Bool? = nil,
         isSkippable: Bool? = nil,
+        enableBiometrics: Bool? = nil,
         presentationHook: ((UIViewController) -> Void)? = nil,
         tracker: TrackingEventsHandler? = nil,
         localizationBundle: Bundle? = nil,
@@ -104,11 +122,21 @@ public struct IdentityUIConfiguration {
             theme: theme ?? self.theme,
             isCancelable: isCancelable ?? self.isCancelable,
             isSkippable: isSkippable ?? self.isSkippable,
+            enableBiometrics: enableBiometrics ?? self.enableBiometrics,
             presentationHook: presentationHook ?? self.presentationHook,
             tracker: tracker ?? self.tracker,
             localizationBundle: localizationBundle ?? self.localizationBundle,
             appName: appName ?? self.appName
         )
+    }
+
+    /**
+      Call this to enroll biometrics login
+
+     - parameter useBiometrics: If you want to enable biometrics authentication.
+     */
+    public func useBiometrics(_ useBiometrics: Bool) {
+        Settings.setValue(useBiometrics, forKey: Constants.BiometricsSettingsKey)
     }
 }
 
@@ -117,6 +145,8 @@ extension IdentityUIConfiguration: CustomStringConvertible {
         return "(\n\tname: \(self.appName), "
             + "\n\tcancelable: \(self.isCancelable), "
             + "\n\tskippable: \(self.isSkippable), "
+            + "\n\tenableBiometrics: \(self.enableBiometrics), "
+            + "\n\tuseBiometrics: \(self.useBiometrics), "
             + "\n\ttracker: \(self.tracker != nil), "
             + "\n\tclient: \(self.clientConfiguration)\n)"
     }

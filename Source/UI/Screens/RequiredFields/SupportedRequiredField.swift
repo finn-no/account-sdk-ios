@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2018 Schibsted Products & Technology AS.
+// Copyright 2011 - 2019 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -24,7 +24,7 @@ enum SupportedRequiredField: String {
         case .birthday:
             // If backspace when input displays a dash, then since we add a dash automagically
             // we remove the dash and the previous char for symmetry
-            if newValue.count == oldValue.count - 1 && oldValue.last == "-" {
+            if newValue.count == oldValue.count - 1, oldValue.last == "-" {
                 return String(newValue.dropLast())
             }
 
