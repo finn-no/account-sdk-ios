@@ -34,7 +34,7 @@ class IdentityAPI {
             }
         }
 
-        let task = request(router: router, formData: formData, headers: headers, parameters: parameters, completion: block)
+        let task = self.request(router: router, formData: formData, headers: headers, parameters: parameters, completion: block)
 
         task?.resume()
     }
@@ -219,7 +219,10 @@ class IdentityAPI {
         completion: @escaping ((Result<UserProfile, ClientError>) -> Void)
     ) {
         let formData = profile.formData()
-        requestWithRetries(router: .updateProfile(userID: userID), formData: formData, headers: [.authorization: oauthToken.bearer], completion: completion)
+        self.requestWithRetries(router: .updateProfile(userID: userID),
+                                formData: formData,
+                                headers: [.authorization: oauthToken.bearer],
+                                completion: completion)
     }
 
     internal func updateUserDevice(
@@ -228,7 +231,7 @@ class IdentityAPI {
         completion: @escaping ((Result<UserDeviceHash, ClientError>) -> Void)
     ) {
         let formData = device.formData()
-        requestWithRetries(router: .devices, formData: formData, headers: [.authorization: oauthToken.bearer], completion: completion)
+        self.requestWithRetries(router: .devices, formData: formData, headers: [.authorization: oauthToken.bearer], completion: completion)
     }
 
     func validateCode(clientID: String,
@@ -263,7 +266,7 @@ class IdentityAPI {
 
     private static func triviallyParseSpidError(_ error: Error, path: String) -> ClientError? {
         /*
-         Current known spid error formats (There's also a "code" key there somewhere, sometimes, but we just get that from URLResponse):
+         Current known Schibsted account error formats (There's also a "code" key there somewhere, sometimes, but we just get that from URLResponse):
          1.
            {
              "error": "string",
