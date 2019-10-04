@@ -156,9 +156,6 @@ class IdentifierViewController: IdentityUIViewController {
         case .email, .password:
             showEmailAddress()
             self.viewToEnsureVisibilityOfAfterKeyboardAppearance = self.emailAddress
-            if let savedEmail = Settings.value(forKey: Constants.EmailStorageLabel) {
-                self.emailAddress.text = savedEmail as? String
-            }
         case let .emailWithPrefilledValue(prefilledEmail), let .passwordWithPrefilledEmail(prefilledEmail):
             showEmailAddress()
             self.emailAddress.text = prefilledEmail.normalizedString
