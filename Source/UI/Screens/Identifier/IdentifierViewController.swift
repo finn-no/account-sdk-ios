@@ -12,6 +12,10 @@ enum IdentifierViewControllerAction {
     case skip
 }
 
+private struct Constants {
+    static let EmailStorageLabel = "com.schibsted.account.user.email"
+}
+
 class IdentifierViewController: IdentityUIViewController {
     var didRequestAction: ((IdentifierViewControllerAction) -> Void)?
 
@@ -25,11 +29,6 @@ class IdentifierViewController: IdentityUIViewController {
     @IBOutlet var backgroundView: UIView! {
         didSet {
             self.backgroundView.backgroundColor = .schibstedLightGray
-        }
-    }
-    @IBOutlet var contentView: UIView! {
-        didSet {
-            self.contentView.layer.cornerRadius = self.theme.geometry.contentGroupingCornerRadius
         }
     }
     @IBAction func didClickWhatsThis(_: Any) {
@@ -157,6 +156,9 @@ class IdentifierViewController: IdentityUIViewController {
         case .email, .password:
             showEmailAddress()
             self.viewToEnsureVisibilityOfAfterKeyboardAppearance = self.emailAddress
+            if let savedEmail = Settings.value(forKey: Constants.EmailStorageLabel) {
+                self.emailAddress.text = savedEmail as? String
+            }
         case let .emailWithPrefilledValue(prefilledEmail), let .passwordWithPrefilledEmail(prefilledEmail):
             showEmailAddress()
             self.emailAddress.text = prefilledEmail.normalizedString
