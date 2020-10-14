@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 /**
  The user device data.
@@ -44,10 +45,10 @@ extension UserDevice: CustomStringConvertible {
 extension UserDevice {
     func formData() -> [String: String] {
         return [
-            "deviceId": self.deviceId,
-            "platform": self.platform,
-            "applicationName": self.applicationName,
-            "applicationVersion": self.applicationVersion,
+            "deviceId": deviceId,
+            "platform": platform,
+            "applicationName": applicationName,
+            "applicationVersion": applicationVersion,
         ]
     }
 }

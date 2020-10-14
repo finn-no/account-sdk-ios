@@ -12,10 +12,6 @@
 		0DFBB1342068ECEB0055F6B8 /* UpdatedTermsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFBB1212068ECEB0055F6B8 /* UpdatedTermsCoordinator.swift */; };
 		43C24192205BF1BF00154866 /* SchibstedAccount.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C24188205BF1BE00154866 /* SchibstedAccount.framework */; };
 		43C24199205BF1BF00154866 /* SchibstedAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C2418B205BF1BE00154866 /* SchibstedAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		43C241B0205C015A00154866 /* SPiDKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C241AC205C015A00154866 /* SPiDKeychainWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		43C241B1205C015A00154866 /* SPiDKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C241AD205C015A00154866 /* SPiDKeychainWrapper.m */; };
-		43C241B2205C015A00154866 /* SPiDAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C241AE205C015A00154866 /* SPiDAccessToken.m */; };
-		43C241B3205C015A00154866 /* SPiDAccessToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C241AF205C015A00154866 /* SPiDAccessToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43E15FE62063B24000D9BA3E /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E15FE52063B24000D9BA3E /* LogoView.swift */; };
 		43E1602D2063BE8C00D9BA3E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43E1602C2063BE8C00D9BA3E /* Images.xcassets */; };
 		43E1604D2063C7A200D9BA3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E1604C2063C7A200D9BA3E /* AppDelegate.swift */; };
@@ -30,6 +26,7 @@
 		43E1606A2063CD1700D9BA3E /* TokenExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E160632063CD1700D9BA3E /* TokenExchangeViewController.swift */; };
 		43E1606B2063CD1700D9BA3E /* PaswordlessFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E160642063CD1700D9BA3E /* PaswordlessFlowViewController.swift */; };
 		43E1606E2063CD3B00D9BA3E /* ClientConfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 43E1606D2063CD3B00D9BA3E /* ClientConfiguration.json */; };
+		761E046F2379761500D41D9A /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E046E2379761500D41D9A /* PasswordTextField.swift */; };
 		9E7F135621106CDA00BBEFED /* FetchUserAssetsTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F134321106CD900BBEFED /* FetchUserAssetsTask.swift */; };
 		9E7F135921106D0300BBEFED /* UserAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F135721106D0300BBEFED /* UserAssets.swift */; };
 		9E7F135A21106D0300BBEFED /* UserAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F135821106D0300BBEFED /* UserAsset.swift */; };
@@ -300,6 +297,8 @@
 		E1DBA10A20A592B70005B3B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DBA10820A592B70005B3B9 /* Localizable.strings */; };
 		E1DBA10D20A592DD0005B3B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DBA10B20A592DD0005B3B9 /* Localizable.strings */; };
 		E1DBA11720A5B9710005B3B9 /* Local+GDPRLanguageCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1DBA11620A5B9710005B3B9 /* Local+GDPRLanguageCode.swift */; };
+		E5BB91E525306B130033ED85 /* SPiDKeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BB91E425306B130033ED85 /* SPiDKeychainWrapper.swift */; };
+		E5BB91FB25306B190033ED85 /* SPiDAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BB91FA25306B190033ED85 /* SPiDAccessToken.swift */; };
 		EF09C90F2254ACDE00ACD90F /* UserDeviceHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF09C90E2254ACDE00ACD90F /* UserDeviceHash.swift */; };
 		EF28CF8C224A5A37009F7D4B /* UserDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28CF8B224A5A37009F7D4B /* UserDevice.swift */; };
 		EF28CF8E224A5D9C009F7D4B /* UserDeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28CF8D224A5D9C009F7D4B /* UserDeviceAPI.swift */; };
@@ -494,10 +493,6 @@
 		43C2418C205BF1BE00154866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43C24191205BF1BE00154866 /* SchibstedAccountTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchibstedAccountTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C24198205BF1BF00154866 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43C241AC205C015A00154866 /* SPiDKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPiDKeychainWrapper.h; sourceTree = "<group>"; };
-		43C241AD205C015A00154866 /* SPiDKeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPiDKeychainWrapper.m; sourceTree = "<group>"; };
-		43C241AE205C015A00154866 /* SPiDAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPiDAccessToken.m; sourceTree = "<group>"; };
-		43C241AF205C015A00154866 /* SPiDAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPiDAccessToken.h; sourceTree = "<group>"; };
 		43E15FE52063B24000D9BA3E /* LogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		43E15FE82063B5C000D9BA3E /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Carthage/Checkouts/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		43E15FFE2063B5D100D9BA3E /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Carthage/Checkouts/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
@@ -516,6 +511,7 @@
 		43E160632063CD1700D9BA3E /* TokenExchangeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenExchangeViewController.swift; sourceTree = "<group>"; };
 		43E160642063CD1700D9BA3E /* PaswordlessFlowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaswordlessFlowViewController.swift; sourceTree = "<group>"; };
 		43E1606D2063CD3B00D9BA3E /* ClientConfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ClientConfiguration.json; sourceTree = "<group>"; };
+		761E046E2379761500D41D9A /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		9E7F134321106CD900BBEFED /* FetchUserAssetsTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchUserAssetsTask.swift; sourceTree = "<group>"; };
 		9E7F135721106D0300BBEFED /* UserAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAssets.swift; sourceTree = "<group>"; };
 		9E7F135821106D0300BBEFED /* UserAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAsset.swift; sourceTree = "<group>"; };
@@ -780,6 +776,8 @@
 		E1DBA10920A592B70005B3B9 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = Localizable.strings; sourceTree = "<group>"; };
 		E1DBA10C20A592DD0005B3B9 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = Localizable.strings; sourceTree = "<group>"; };
 		E1DBA11620A5B9710005B3B9 /* Local+GDPRLanguageCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Local+GDPRLanguageCode.swift"; sourceTree = "<group>"; };
+		E5BB91E425306B130033ED85 /* SPiDKeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPiDKeychainWrapper.swift; sourceTree = "<group>"; };
+		E5BB91FA25306B190033ED85 /* SPiDAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPiDAccessToken.swift; sourceTree = "<group>"; };
 		EF09C90E2254ACDE00ACD90F /* UserDeviceHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDeviceHash.swift; sourceTree = "<group>"; };
 		EF28CF8B224A5A37009F7D4B /* UserDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDevice.swift; sourceTree = "<group>"; };
 		EF28CF8D224A5D9C009F7D4B /* UserDeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDeviceAPI.swift; sourceTree = "<group>"; };
@@ -1204,6 +1202,7 @@
 				B01D7A720FEE19EA8933F774 /* SecondaryButton.swift */,
 				B01D7363AB813D345B56C881 /* ValidateTextField.swift */,
 				B01D78BB0C41529A50668EBF /* ViewContainingExpandedSubviews.swift */,
+				761E046E2379761500D41D9A /* PasswordTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1409,10 +1408,8 @@
 		B01D7BEB43A901DC182B098C /* LegacySPiDAccessToken */ = {
 			isa = PBXGroup;
 			children = (
-				43C241AF205C015A00154866 /* SPiDAccessToken.h */,
-				43C241AE205C015A00154866 /* SPiDAccessToken.m */,
-				43C241AC205C015A00154866 /* SPiDKeychainWrapper.h */,
-				43C241AD205C015A00154866 /* SPiDKeychainWrapper.m */,
+				E5BB91E425306B130033ED85 /* SPiDKeychainWrapper.swift */,
+				E5BB91FA25306B190033ED85 /* SPiDAccessToken.swift */,
 			);
 			path = LegacySPiDAccessToken;
 			sourceTree = "<group>";
@@ -1554,8 +1551,6 @@
 			files = (
 				43C24199205BF1BF00154866 /* SchibstedAccount.h in Headers */,
 				B01D7FD4237F432EA76DAF72 /* UI.h in Headers */,
-				43C241B3205C015A00154866 /* SPiDAccessToken.h in Headers */,
-				43C241B0205C015A00154866 /* SPiDKeychainWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1983,7 +1978,6 @@
 				B01D781705E7FF15EB2BAF7F /* RequiredFields.swift in Sources */,
 				B01D7E247C793EFB3D4BECE8 /* IdentifierStatus.swift in Sources */,
 				0DFBB1342068ECEB0055F6B8 /* UpdatedTermsCoordinator.swift in Sources */,
-				43C241B2205C015A00154866 /* SPiDAccessToken.m in Sources */,
 				B01D762E102B78560BE87702 /* PasswordlessToken.swift in Sources */,
 				B01D7167E324373011B91014 /* Router.swift in Sources */,
 				B01D7FCC3276E59472473201 /* IdentityAPI.swift in Sources */,
@@ -2038,6 +2032,7 @@
 				B01D77FD683B424423E8EA29 /* ErrorViewController.swift in Sources */,
 				B01D76D6DB4057908A0AF043 /* TermsViewModel.swift in Sources */,
 				B01D73D847663D2D3C9046B3 /* TermsViewController.swift in Sources */,
+				E5BB91FB25306B190033ED85 /* SPiDAccessToken.swift in Sources */,
 				B01D7D78756020C5C5B2DD70 /* ResendViewModel.swift in Sources */,
 				9E7F135921106D0300BBEFED /* UserAssets.swift in Sources */,
 				B01D755CF4309E16F1F3EBC3 /* ResendViewController.swift in Sources */,
@@ -2053,9 +2048,9 @@
 				B01D7F83E22662B866338016 /* RequiredFieldsViewModel.swift in Sources */,
 				B01D751D7F7B2C55C7D9821F /* RequiredFieldsViewController.swift in Sources */,
 				B01D7E078DD8158FCB031F69 /* TrackingEventsHandler.swift in Sources */,
-				43C241B1205C015A00154866 /* SPiDKeychainWrapper.m in Sources */,
 				B01D7C1095ACFFA0D0E2F4D8 /* TermsInteractor.swift in Sources */,
 				EF28CF92224B72FD009F7D4B /* User+Device.swift in Sources */,
+				761E046F2379761500D41D9A /* PasswordTextField.swift in Sources */,
 				B01D7DF36A1DA33AF2C58C6C /* SigninInteractor.swift in Sources */,
 				B01D72E960E119520C7432C2 /* SignupInteractor.swift in Sources */,
 				B01D74D5F0410193F4773E6E /* FetchStatusInteractor.swift in Sources */,
@@ -2070,6 +2065,7 @@
 				B01D7AAC96A5DF77118897FF /* PasswordCoordinator.swift in Sources */,
 				B01D75E356815C47AF366F18 /* PasswordlessCoordinator.swift in Sources */,
 				B01D79AFDE7C2C686327764E /* AuthenticationCoordinator.swift in Sources */,
+				E5BB91E525306B130033ED85 /* SPiDKeychainWrapper.swift in Sources */,
 				B01D75CA0F9830B13AA3C4CE /* CompleteProfileCoordinator.swift in Sources */,
 				B01D74B319A62269534D99EB /* Themeable.swift in Sources */,
 				B01D78DBDE0F44395218BB89 /* IdentityUI.swift in Sources */,
@@ -2276,13 +2272,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2331,11 +2327,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2355,13 +2351,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.SchibstedAccount;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2379,12 +2373,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.SchibstedAccount;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2401,7 +2393,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.SchibstedAccountTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example.app/Example";
 			};
@@ -2419,7 +2410,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.SchibstedAccountTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example.app/Example";
 			};
@@ -2433,11 +2423,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R4MV92E7GV;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2450,11 +2438,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R4MV92E7GV;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schibsted.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

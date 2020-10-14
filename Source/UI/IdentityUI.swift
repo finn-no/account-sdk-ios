@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -638,9 +638,9 @@ extension IdentityUI {
                     self?.complete(with: output, presentingViewController: presentingViewController)
                 }
             }
-        case let .validateAuthCode(code, shouldPersistUser):
+        case let .validateAuthCode(code, shouldPersistUser, codeVerifier):
             // Let's check if the code validates.
-            authenticationCodeInteractor.validate(authCode: code) { [weak self] result in
+            authenticationCodeInteractor.validate(authCode: code, codeVerifier: codeVerifier) { [weak self] result in
                 switch result {
                 case let .success(user):
                     self?.configuration.tracker?.loginID = self?._identityManager.currentUser.legacyID
@@ -724,8 +724,12 @@ extension IdentityUI: TrackingEventsHandlerDelegate {
 }
 
 extension IdentityUI {
-    static let bundle = {
-        Bundle(for: IdentityUI.self)
+    static let bundle: Bundle = {
+        #if SWIFT_PACKAGE
+        return Bundle.module
+        #else
+        return Bundle(for: IdentityUI.self)
+        #endif
     }()
 }
 

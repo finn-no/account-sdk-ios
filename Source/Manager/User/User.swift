@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -67,7 +67,7 @@ public class User: UserProtocol {
     ///
     public weak var delegate: UserDelegate?
 
-    var willDeinit = EventEmitter<()>(description: "User.willDeinit")
+    var willDeinit = EventEmitter<Void>(description: "User.willDeinit")
 
     let api: IdentityAPI
     let clientConfiguration: ClientConfiguration
@@ -164,11 +164,11 @@ public class User: UserProtocol {
      */
     public func logout() {
         log(from: self, "state = \(state)")
-        guard let oldTokens = self.clearTokens() else {
+        guard let oldTokens = clearTokens() else {
             return
         }
 
-        try? UserTokensStorage().clearAll()
+        try? UserTokensStorage(accessGroup: clientConfiguration.accessGroup).clearAll()
         delegate?.user(self, didChangeStateTo: .loggedOut)
 
         User.globalStore.forEach { _, weakVal in
@@ -264,13 +264,13 @@ public class User: UserProtocol {
             // tokens were then not cleared or some other weird nonsense.
             //
             // TODO: Revisit this logic if and when multi user keychain support is implemented
-            try? UserTokensStorage().clearAll()
+            try? UserTokensStorage(accessGroup: clientConfiguration.accessGroup).clearAll()
         }
 
         if isPersistent {
             // Store new tokens if we are supposed to be persistent.
             // Only clear previous tokens if the user is NOT a new one (since they have not logged out)
-            try? UserTokensStorage().store(newTokens)
+            try? UserTokensStorage(accessGroup: clientConfiguration.accessGroup).store(newTokens)
         }
 
         // Only call state change if we had a previous user and we have a new us
@@ -280,7 +280,7 @@ public class User: UserProtocol {
     }
 
     func loadStoredTokens() throws {
-        let tokens = try UserTokensStorage().loadTokens()
+        let tokens = try UserTokensStorage(accessGroup: clientConfiguration.accessGroup).loadTokens()
         try set(
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
@@ -295,7 +295,7 @@ public class User: UserProtocol {
     func persistCurrentTokens() {
         guard !isPersistent, let tokens = self.tokens else { return }
         do {
-            try UserTokensStorage().store(tokens)
+            try UserTokensStorage(accessGroup: clientConfiguration.accessGroup).store(tokens)
             isPersistent = true
         } catch {
             log(level: .error, from: self, "failed to persist tokens: \(error)", force: true)

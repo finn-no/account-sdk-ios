@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 /**
  Different fonts and their associated properties that are part of the schibsted style
@@ -95,7 +96,7 @@ public enum StyleFont {
         style.alignment = alignment ?? .left
         return [
             .paragraphStyle: style,
-            .font: self.font,
+            .font: font,
             .foregroundColor: color ?? self.color,
         ]
     }

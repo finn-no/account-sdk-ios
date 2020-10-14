@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -44,9 +44,10 @@ class UserTokensKeychain: KeychainGenericPasswordType {
         return fetchedData
     }
     let accountName = "SchibstedID"
+    let accessGroup: String?
 
     func data() -> [TokenData] {
-        guard let loggedInUsers = (try? self.fetchedData.jsonObject(for: Keys.loggedInUsers)) as? [String: JSONObject] else {
+        guard let loggedInUsers = (try? fetchedData.jsonObject(for: Keys.loggedInUsers)) as? [String: JSONObject] else {
             log(level: .debug, from: self, "no logged in users in \(fetchedData)")
             return []
         }
@@ -78,7 +79,7 @@ class UserTokensKeychain: KeychainGenericPasswordType {
     }
 
     func removeTokens(forAccessToken accessToken: String) {
-        guard var loggedInUsers = try? self.fetchedData.jsonObject(for: Keys.loggedInUsers) else {
+        guard var loggedInUsers = try? fetchedData.jsonObject(for: Keys.loggedInUsers) else {
             return
         }
         loggedInUsers[accessToken] = nil
@@ -90,7 +91,7 @@ class UserTokensKeychain: KeychainGenericPasswordType {
     }
 
     private func migrate() throws {
-        guard let accessToken = try? self.fetchedData.string(for: Keys.accessToken) else {
+        guard let accessToken = try? fetchedData.string(for: Keys.accessToken) else {
             return
         }
         let refreshToken = try? fetchedData.string(for: Keys.refreshToken)
@@ -112,7 +113,8 @@ class UserTokensKeychain: KeychainGenericPasswordType {
         try saveInKeychain()
     }
 
-    init() {
+    init(accessGroup: String? = nil) {
+        self.accessGroup = accessGroup
         var downcastedSelf = self
         if (try? downcastedSelf.fetchFromKeychain()) != nil {
             fetchedData = downcastedSelf.fetchedData

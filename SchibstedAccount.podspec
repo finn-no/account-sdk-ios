@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name = 'SchibstedAccount'
-  s.version = '2.5.0'
+  s.version = '2.8.0'
   s.summary = "SDK for a Schibsted identity service"
   s.license = { :type => "MIT" }
   s.homepage = "https://schibsted.github.io/account-sdk-ios/"
@@ -20,9 +20,9 @@ Pod::Spec.new do |s|
     :tag => s.version.to_s
   }
 
-  s.swift_versions = ['4.2']
-  s.ios.deployment_target = '9.0'
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
+  s.swift_versions = ['5.3']
+  s.ios.deployment_target = '11.0'
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.3' }
   s.default_subspecs = ['Manager', 'UI']
 
   s.subspec "Core" do |ss|

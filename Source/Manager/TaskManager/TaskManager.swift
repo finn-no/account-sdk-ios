@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -147,7 +147,7 @@ class TaskManager {
             defer { self.lock.unlock() }
 
             // If it was cancelled and removed there's no need to refresh
-            guard let taskData = self.pendingTasks[handle] else {
+            guard let taskData = pendingTasks[handle] else {
                 log(level: .debug, from: self, "\(handle) gone. No need to refresh")
                 return
             }
@@ -155,7 +155,7 @@ class TaskManager {
             // If retry count exceeded, cancel it, we're done
             if let maxRetryCount = SDKConfiguration.shared.refreshRetryCount,
                 taskData.retryCount >= maxRetryCount,
-                let data = self.pendingTasks.removeValue(forKey: handle) {
+                let data = pendingTasks.removeValue(forKey: handle) {
                 log(level: .warn, from: self, "refresh retry count for \(handle) exceeeded")
                 DispatchQueue.main.async {
                     let userInfo: [AnyHashable: Any] = [
@@ -239,7 +239,7 @@ class TaskManager {
                 if let clientError = error as? ClientError {
                     switch clientError {
                     case let .networkingError(internaleError):
-                        let logoutCodes = [400, 401, 403]
+                        let logoutCodes = [401, 403]
                         if case let NetworkingError.unexpectedStatus(status, _) = internaleError, logoutCodes.contains(status) {
                             strongSelf.user?.logout()
                         }

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -10,17 +10,17 @@ class SynchronizedDictionary<K: Hashable, V> {
     private let dispatchQueue = DispatchQueue(label: "com.schibsted.identity.SynchronizedDictionary", attributes: .concurrent)
 
     subscript(key: K) -> V? {
-        set {
-            dispatchQueue.async(flags: .barrier) {
-                self.dictionary[key] = newValue
-            }
-        }
         get {
             var value: V?
             dispatchQueue.sync {
                 value = self.dictionary[key]
             }
             return value
+        }
+        set {
+            dispatchQueue.async(flags: .barrier) {
+                self.dictionary[key] = newValue
+            }
         }
     }
 

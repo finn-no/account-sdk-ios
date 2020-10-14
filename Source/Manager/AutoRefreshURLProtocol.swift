@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -35,7 +35,7 @@ class AutoRefreshTask: TaskProtocol {
     }
 
     func execute(completion: @escaping (Result<SuccessType, ClientError>) -> Void) {
-        guard let accessToken = self.user?.tokens?.accessToken else {
+        guard let accessToken = user?.tokens?.accessToken else {
             completion(.failure(.invalidUser))
             return
         }
@@ -105,7 +105,7 @@ class AutoRefreshURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        log(from: self, request)
+        log(from: self, self.request)
         guard let userInstanceAddressString = request.allHTTPHeaderFields?[type(of: self).key],
             let userInstanceAddressInt = Int(userInstanceAddressString),
             let user = User.globalStore[userInstanceAddressInt]
@@ -151,7 +151,7 @@ class AutoRefreshURLProtocol: URLProtocol {
     }
 
     override func stopLoading() {
-        log(from: self, request)
+        log(from: self, self.request)
         taskHandle?.cancel()
     }
 }
