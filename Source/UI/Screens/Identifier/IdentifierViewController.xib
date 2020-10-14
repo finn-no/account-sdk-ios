@@ -118,7 +118,7 @@
                                                     <rect key="frame" x="16" y="161" width="343" height="211.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9Qw-VW-lWj">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="57.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="19.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Info text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZp-Li-kvw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="56.5" height="19.5"/>
@@ -126,8 +126,8 @@
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSi-bS-tNY" userLabel="HelpButton">
-                                                                    <rect key="frame" x="0.0" y="27.5" width="52" height="30"/>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSi-bS-tNY" userLabel="HelpButton">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="52" height="0.0"/>
                                                                     <state key="normal" title="What is"/>
                                                                     <connections>
                                                                         <action selector="didTapWhatsThis:" destination="-1" eventType="touchUpInside" id="pd9-n7-c4v"/>
