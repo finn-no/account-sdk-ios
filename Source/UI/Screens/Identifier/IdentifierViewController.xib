@@ -114,7 +114,7 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="cIa-P1-gNm" userLabel="PrivacyStackView">
+                                                <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="cIa-P1-gNm" userLabel="PrivacyStackView">
                                                     <rect key="frame" x="16" y="161" width="343" height="211.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9Qw-VW-lWj">
