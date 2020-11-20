@@ -369,7 +369,7 @@ public class IdentityManager: IdentityManagerProtocol {
      - parameter persistUser: whether the login status should be persistent on app's relaunches
      - parameter completion: a callback that is called after the credential is checked.
      */
-    public func login(username: Identifier, password: String, scopes: [String] = [], persistUser: Bool, completion: @escaping NoValueCallback) {
+    public func login(username: Identifier, emailSuggestion: String? = nil, password: String, scopes: [String] = [], persistUser: Bool, completion: @escaping NoValueCallback) {
         log(from: self, "\(username) logging in with scopes: \(scopes), persist: \(persistUser)")
 
         let wrappedCompletion: NoValueCallback = { [weak self] result in

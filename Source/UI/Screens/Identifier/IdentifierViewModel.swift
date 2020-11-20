@@ -8,6 +8,7 @@ import Foundation
 ///
 class IdentifierViewModel {
     let loginMethod: LoginMethod
+    let emailSuggestion: String?
     let localizedTeaserText: String?
     let localizationBundle: Bundle
     let kind: Client.Kind
@@ -23,6 +24,7 @@ class IdentifierViewModel {
 
     init(
         loginMethod: LoginMethod,
+        emailSuggestion: String? = nil,
         kind: Client.Kind?,
         merchantName: String,
         localizedTeaserText: String?,
@@ -30,6 +32,7 @@ class IdentifierViewModel {
         locale: Locale
     ) {
         self.loginMethod = loginMethod
+        self.emailSuggestion = emailSuggestion
         self.kind = kind ?? .internal
         self.merchantName = merchantName
         self.localizedTeaserText = localizedTeaserText

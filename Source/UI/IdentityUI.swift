@@ -253,6 +253,7 @@ public class IdentityUI {
     public func presentIdentityProcess(
         from viewController: UIViewController,
         loginMethod: LoginMethod,
+        emailSuggestion: String?,
         localizedTeaserText: String? = nil,
         scopes: [String] = []
     ) {
@@ -261,6 +262,7 @@ public class IdentityUI {
         start(
             input: .byLoginMethod(
                 loginMethod,
+                emailSuggestion: emailSuggestion,
                 presentingViewController: viewController,
                 localizedTeaserText: localizedTeaserText,
                 scopes: scopes
@@ -385,6 +387,7 @@ extension IdentityUI: FlowCoordinator {
     enum Input {
         case byLoginMethod(
             LoginMethod,
+            emailSuggestion: String?,
             presentingViewController: UIViewController,
             localizedTeaserText: String?,
             scopes: [String]
@@ -433,7 +436,7 @@ extension IdentityUI {
     func initializeAndShow(input: Input, completion: @escaping (Output) -> Void) {
         let presentingViewController: UIViewController
         switch input {
-        case let .byRoute(_, vc), let .byLoginMethod(_, vc, _, _):
+        case let .byRoute(_, vc), let .byLoginMethod(_, _, vc, _, _):
             presentingViewController = vc
         }
 
@@ -461,9 +464,10 @@ extension IdentityUI {
         switch input {
         case let .byRoute(route, vc):
             handleRouteForUnpresentedUI(route: route, byPresentingIn: vc, client: client, completion: completion)
-        case let .byLoginMethod(loginMethod, vc, localizedTeaserText, scopes):
+        case let .byLoginMethod(loginMethod, emailSuggestion, vc, localizedTeaserText, scopes):
             let identifierViewController = makeIdentifierViewController(
                 loginMethod: loginMethod,
+                emailSuggestion: emailSuggestion,
                 localizedTeaserText: localizedTeaserText,
                 scopes: scopes,
                 kind: client.kind,
@@ -479,6 +483,7 @@ extension IdentityUI {
 
     private func makeIdentifierViewController(
         loginMethod: LoginMethod,
+        emailSuggestion: String?,
         localizedTeaserText: String?,
         scopes: [String],
         kind: Client.Kind?,
@@ -490,6 +495,7 @@ extension IdentityUI {
         )
         let viewModel = IdentifierViewModel(
             loginMethod: loginMethod,
+            emailSuggestion: emailSuggestion,
             kind: kind,
             merchantName: merchantName,
             localizedTeaserText: localizedTeaserText,
@@ -681,6 +687,7 @@ extension IdentityUI {
 
         let viewController = makeIdentifierViewController(
             loginMethod: route.loginMethod,
+            emailSuggestion: nil,
             localizedTeaserText: nil,
             scopes: scopes,
             kind: client.kind,

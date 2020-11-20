@@ -157,12 +157,18 @@ class IdentifierViewController: IdentityUIViewController {
         case .email, .password:
             showEmailAddress()
             viewToEnsureVisibilityOfAfterKeyboardAppearance = emailAddress
-            if let savedEmail = Settings.value(forKey: Constants.EmailStorageLabel) {
+            if let emailSuggestion = viewModel.emailSuggestion {
+                emailAddress.text = emailSuggestion
+            } else if let savedEmail = Settings.value(forKey: Constants.EmailStorageLabel) {
                 emailAddress.text = savedEmail as? String
             }
         case let .emailWithPrefilledValue(prefilledEmail), let .passwordWithPrefilledEmail(prefilledEmail):
             showEmailAddress()
-            emailAddress.text = prefilledEmail.normalizedString
+            if let emailSuggestion = viewModel.emailSuggestion {
+                emailAddress.text = emailSuggestion
+            } else {
+                emailAddress.text = prefilledEmail.normalizedString
+            }
         case .phone:
             showPhoneNumber()
             viewToEnsureVisibilityOfAfterKeyboardAppearance = phoneNumber

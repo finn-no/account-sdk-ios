@@ -10,8 +10,8 @@ class SigninInteractor {
         self.identityManager = identityManager
     }
 
-    func login(username: Identifier, password: String, scopes: [String], completion: @escaping (Result<User, ClientError>) -> Void) {
-        identityManager.login(username: username, password: password, scopes: scopes, persistUser: false) { [weak self] result in
+    func login(username: Identifier, emailSuggestion: String? = nil, password: String, scopes: [String], completion: @escaping (Result<User, ClientError>) -> Void) {
+        identityManager.login(username: username, emailSuggestion: emailSuggestion, password: password, scopes: scopes, persistUser: false) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success:
