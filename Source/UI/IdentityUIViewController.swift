@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -58,7 +58,12 @@ class IdentityUIViewController: UIViewController {
         self.trackerScreenID = trackerScreenID
         self.trackerViewAdditionalFields = trackerViewAdditionalFields
         let typeSelf = type(of: self)
-        super.init(nibName: typeSelf.nibName, bundle: Bundle(for: typeSelf))
+        #if SWIFT_PACKAGE
+            let bundle = Bundle.module
+        #else
+            let bundle = Bundle(for: typeSelf)
+        #endif
+        super.init(nibName: typeSelf.nibName, bundle: bundle)
     }
 
     required init?(coder _: NSCoder) {
@@ -86,7 +91,7 @@ class IdentityUIViewController: UIViewController {
 
         var leftBarButtonItems: [UIBarButtonItem] = []
 
-        if let backAction = self.navigationSettings.navigateBack {
+        if let backAction = navigationSettings.navigateBack {
             let backBarButtonItem = IdentityUIBarButtonItem(
                 title: nil,
                 style: .plain,
@@ -114,7 +119,7 @@ class IdentityUIViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItems = leftBarButtonItems
 
-        if let cancelAction = self.navigationSettings.cancel {
+        if let cancelAction = navigationSettings.cancel {
             let barButtonItem = IdentityUIBarButtonItem(
                 title: nil,
                 style: .plain,
@@ -155,7 +160,7 @@ class IdentityUIViewController: UIViewController {
     }
 
     @objc private func keyboardDidShow(notification: NSNotification) {
-        guard let view = self.viewToEnsureVisibilityOfAfterKeyboardAppearance else {
+        guard let view = viewToEnsureVisibilityOfAfterKeyboardAppearance else {
             return
         }
 

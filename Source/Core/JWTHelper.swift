@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -44,7 +44,7 @@ struct DefaultJWTHelperProxy: JWTHelperProxy {
     }
 }
 
-struct JWTHelper {
+enum JWTHelper {
     static var proxy: JWTHelperProxy = DefaultJWTHelperProxy()
 
     static func toJSON(string: String) throws -> JSONObject {

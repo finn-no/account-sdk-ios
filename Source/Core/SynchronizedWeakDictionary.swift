@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -18,18 +18,18 @@ class WeakValue<V: AnyObject>: CustomStringConvertible {
 class SynchronizedWeakDictionary<K: Hashable, V: AnyObject> {
     private let dictionary = SynchronizedDictionary<K, WeakValue<V>>()
     subscript(key: K) -> V? {
+        get {
+            guard let weakValue = dictionary.removeValue(forKey: key, if: { $0.value == nil }) else {
+                return nil
+            }
+            return weakValue.value
+        }
         set {
             guard newValue != nil else {
                 dictionary[key] = nil
                 return
             }
             dictionary[key] = WeakValue(newValue)
-        }
-        get {
-            guard let weakValue = self.dictionary.removeValue(forKey: key, if: { $0.value == nil }) else {
-                return nil
-            }
-            return weakValue.value
         }
     }
 

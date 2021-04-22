@@ -1,18 +1,18 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
 
-extension User {
+public extension User {
     /**
      Agreement related APIs that give you information about the status of this user's agreements acceptance.
 
      Agreements consists of terms and conditions and privacy policies. Acccepting agreements means the user
      has accepted all the agreements fetchable via `IdentityManager.fetchAgreements(...)`
      */
-    public class Agreements: UserAgreementsAPI {
+    class Agreements: UserAgreementsAPI {
         weak var user: UserProtocol?
 
         /**

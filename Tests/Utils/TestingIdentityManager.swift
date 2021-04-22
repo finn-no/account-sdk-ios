@@ -51,9 +51,9 @@ class TestingIdentityManager: IdentityManagerProtocol {
         }
     }
 
-    func validate(authCode: String, persistUser: Bool, completion: @escaping NoValueCallback) {
+    func validate(authCode: String, persistUser: Bool, codeVerifier: String? = nil, completion: @escaping NoValueCallback) {
         Utils.waitUntilDone(completion) { [unowned self] in
-            self.identityManager.validate(authCode: authCode, persistUser: persistUser, completion: $0)
+            self.identityManager.validate(authCode: authCode, persistUser: persistUser, codeVerifier: codeVerifier, completion: $0)
         }
     }
 
@@ -63,9 +63,9 @@ class TestingIdentityManager: IdentityManagerProtocol {
         }
     }
 
-    func login(username: Identifier, password: String, scopes: [String] = [], persistUser: Bool, completion: @escaping NoValueCallback) {
+    func login(username: Identifier, password: String, scopes: [String] = [], persistUser: Bool, useSharedWebCredentials: Bool, completion: @escaping NoValueCallback) {
         Utils.waitUntilDone(completion) { [unowned self] in
-            self.identityManager.login(username: username, password: password, scopes: scopes, persistUser: persistUser, completion: $0)
+            self.identityManager.login(username: username, password: password, scopes: scopes, persistUser: persistUser, useSharedWebCredentials: useSharedWebCredentials, completion: $0)
         }
     }
 

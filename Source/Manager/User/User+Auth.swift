@@ -1,15 +1,15 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
 
-extension User {
+public extension User {
     /**
      Contains APIs that allow you get access to tokens and control some oauth related settings for a user
      */
-    public class Auth: UserAuthAPI {
+    class Auth: UserAuthAPI {
         weak var user: UserProtocol?
 
         /**

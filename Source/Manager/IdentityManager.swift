@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -367,9 +367,11 @@ public class IdentityManager: IdentityManagerProtocol {
      - parameter password: the password for the identifier
      - parameter scopes: array of scopes you want the token to contain
      - parameter persistUser: whether the login status should be persistent on app's relaunches
+     - parameter useSharedWebCredentials: whether the credentials should be saved to the shared web credentials.
      - parameter completion: a callback that is called after the credential is checked.
      */
-    public func login(username: Identifier, password: String, scopes: [String] = [], persistUser: Bool, completion: @escaping NoValueCallback) {
+    public func login(username: Identifier, password: String, scopes: [String] = [], persistUser: Bool,
+                      useSharedWebCredentials: Bool, completion: @escaping NoValueCallback) {
         log(from: self, "\(username) logging in with scopes: \(scopes), persist: \(persistUser)")
 
         let wrappedCompletion: NoValueCallback = { [weak self] result in
@@ -381,7 +383,7 @@ public class IdentityManager: IdentityManagerProtocol {
             completion(result)
         }
 
-        guard case .email = username else {
+        guard case let .email(email) = username else {
             wrappedCompletion(.failure(ClientError.unexpectedIdentifier(actual: username, expected: "only EmailAddress supported")))
             return
         }
@@ -394,7 +396,17 @@ public class IdentityManager: IdentityManagerProtocol {
             username: username.normalizedString,
             password: password,
             scope: (scopes + IdentityManager.defaultScopes).duplicatesRemoved()
-        ) { [weak self] result in
+        ) { [weak self, clientConfiguration] result in
+            let fqdn = clientConfiguration.serverURL.host!
+            if case .success = result, useSharedWebCredentials {
+                SecAddSharedWebCredential(fqdn as CFString, email.emailAddress as CFString, password as CFString) { error in
+                    if let error = error {
+                        log(level: .error, from: self, "Failed to add \(username) to the shared web credentials: \(error)")
+                    } else {
+                        log(level: .verbose, from: self, "Added credentials to the shared web credentials for \(username)")
+                    }
+                }
+            }
             self?.finishLogin(result: result, persistUser: persistUser, completion: wrappedCompletion)
         }
     }
@@ -521,20 +533,22 @@ public class IdentityManager: IdentityManagerProtocol {
      The authorization code is passed into the app from Schibsted account after the user verified their email.
 
      - parameter authCode: an authorization code (currently it's just available through deeplinks)
+     - parameter codeVerifier: code verifier associated with the authCode using PKCE
      - parameter completion: the callback that is called after validation
      - parameter scopes: array of scopes you want the token to contain
      - parameter persistUser: whether the login status should be persistent on app's relaunches
 
      - SeeAlso: `AppLaunchData`
      */
-    public func validate(authCode: String, persistUser: Bool, completion: @escaping NoValueCallback) {
+    public func validate(authCode: String, persistUser: Bool, codeVerifier: String? = nil, completion: @escaping NoValueCallback) {
         api.requestAccessToken(
             clientID: clientConfiguration.clientID,
             clientSecret: clientConfiguration.clientSecret,
             grantType: .authorizationCode,
             code: authCode,
             // this parameter is useless, but required, otherwise you get "invalid_request" error
-            redirectURI: clientConfiguration.redirectBaseURL(withPathComponent: nil).absoluteString
+            redirectURI: clientConfiguration.redirectBaseURL(withPathComponent: nil).absoluteString,
+            codeVerifier: codeVerifier
         ) { [weak self] result in
             self?.finishLogin(result: result, persistUser: persistUser, completion: completion)
         }

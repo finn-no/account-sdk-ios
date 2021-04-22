@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -30,7 +30,7 @@ extension PasswordlessTokenStoreError: ClientErrorConvertible {
     }
 }
 
-struct PasswordlessTokenStore {
+enum PasswordlessTokenStore {
     private struct Key: CustomStringConvertible {
         fileprivate static let prefix = "passwordless-token"
         let key: String

@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -119,12 +119,17 @@ class StatusViewController: UIViewController {
         )
     }
 
+    @IBAction func didTapWebFlowLogin(_: UIButton) {
+        let url = UIApplication.identityManager.routes.loginUrl(shouldPersistUser: false)
+        UIApplication.shared.open(url, options: [:]) { _ in }
+    }
+
     @IBAction func didTapOpenProfile(_: UIButton) {
         let accountURL = UIApplication.identityManager.routes.accountSummaryURL
 
         let alert = UIAlertController(title: "Mood", message: "Would you like to go through SPiD or the BFF?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "SPiD", style: .default) { _ in
-            UIApplication.shared.openURL(accountURL)
+            UIApplication.shared.open(accountURL, options: [:]) { _ in }
         })
         alert.addAction(UIAlertAction(title: "BFF", style: .default) { _ in
             guard var components = URLComponents(url: ClientConfiguration.current.serverURL, resolvingAgainstBaseURL: true) else {
@@ -147,7 +152,7 @@ class StatusViewController: UIViewController {
                 print("could not create url from \(components)")
                 return
             }
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:]) { _ in }
         })
 
         present(alert, animated: true, completion: nil)

@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 class LogoStackView: UIStackView, Themeable {
     func applyTheme(theme: IdentityUITheme) {
@@ -11,7 +12,13 @@ class LogoStackView: UIStackView, Themeable {
 
         alignment = .center
 
-        let schImage = UIImage(named: "schibsted-logo", in: Bundle(for: IdentityUI.self), compatibleWith: nil)
+        #if SWIFT_PACKAGE
+            let bundle = Bundle.module
+        #else
+            let bundle = Bundle(for: IdentityUI.self)
+        #endif
+
+        let schImage = UIImage(named: "schibsted-logo", in: bundle, compatibleWith: nil)
         let schImageView = UIImageView(image: schImage)
         schImageView.contentMode = .scaleAspectFit
         schImageView.widthAnchor.constraint(equalToConstant: 69).isActive = true

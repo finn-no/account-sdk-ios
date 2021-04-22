@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -40,8 +40,10 @@ public extension IdentityManagerProtocol {
     }
 
     /// - SeeAlso: `IdentityManager.login(...)`
-    func login(email: EmailAddress, password: String, scopes: [String] = [], persistUser: Bool, completion: @escaping NoValueCallback) {
-        return login(username: Identifier(email), password: password, scopes: scopes, persistUser: persistUser, completion: completion)
+    func login(email: EmailAddress, password: String, scopes: [String] = [], persistUser: Bool,
+               useSharedWebCredentials: Bool, completion: @escaping NoValueCallback) {
+        return login(username: Identifier(email), password: password, scopes: scopes, persistUser: persistUser,
+                     useSharedWebCredentials: useSharedWebCredentials, completion: completion)
     }
     /// - SeeAlso: `IdentityManager.signup(...)`
     func signup(email: EmailAddress, password: String, persistUser: Bool, completion: @escaping NoValueCallback) {

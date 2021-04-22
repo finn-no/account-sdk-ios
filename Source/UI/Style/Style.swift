@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -8,7 +8,7 @@ import Foundation
 /**
  Style contains the diffent aspects of UI styling guidelines that we use
  */
-public struct Style {
+public enum Style {
     /**
      The colors we use
 

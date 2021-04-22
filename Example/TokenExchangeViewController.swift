@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -26,7 +26,7 @@ class TokenExchangeViewController: UIViewController {
         // The client ID here must match the web client ID of the example site.
         // And the client config used to launch the app must be the .sdkExample config
         guard let clientID = UIApplication.identityManager.clientConfiguration.webClientID,
-            let redirectURL = UIApplication.identityManager.clientConfiguration.sdkExampleRedirectURL
+              let redirectURL = UIApplication.identityManager.clientConfiguration.sdkExampleRedirectURL
         else {
             print("client config does not support a web view")
             return
@@ -37,7 +37,7 @@ class TokenExchangeViewController: UIViewController {
             redirectURL: redirectURL
         ) { result in
             if case let .success(url) = result {
-                UIApplication.shared.openURL(url)
+                UIApplication.shared.open(url, options: [:]) { _ in }
             }
         }
     }

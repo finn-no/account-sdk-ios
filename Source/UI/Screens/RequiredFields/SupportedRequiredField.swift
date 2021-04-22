@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 /**
  The UI currently has support for the following fields and types
@@ -78,7 +79,7 @@ enum SupportedRequiredField: String {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             guard let givenDate = dateFormatter.date(from: value) else { return nil }
             let today = Calendar.current.startOfDay(for: Date())
-            guard let pastDate = Calendar.current.date(byAdding: .year, value: -16, to: today) else { return nil }
+            guard let pastDate = Calendar.current.date(byAdding: .year, value: -15, to: today) else { return nil }
             let comparisonResult = givenDate.compare(pastDate)
 
             var error: ValidationError?

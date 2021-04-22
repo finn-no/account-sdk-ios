@@ -1,7 +1,9 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
+
+import UIKit
 
 extension UIImage {
     static var schibstedCheckedBox: UIImage { return Style.icons[.checkedBox] }
@@ -13,4 +15,6 @@ extension UIImage {
     static var schibstedRememberMeInfo: UIImage { return Style.icons[.rememberMeInfo] }
     static var schibstedInfoPlaceholder: UIImage { return Style.icons[.infoPlaceholder] }
     static var schibstedInfo: UIImage { return Style.icons[.circularInfo] }
+    static var schibstedPasswordShow: UIImage { return Style.icons[.passwordShow] }
+    static var schibstedPasswordHide: UIImage { return Style.icons[.passwordHide] }
 }

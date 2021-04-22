@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 /**
  Used to store extracted application launch data for deep linking scenarios.
@@ -21,19 +22,22 @@ public enum AppLaunchData: Equatable {
     case afterForgotPassword
     /// When deep link returns after an account summary session
     case codeAfterAccountSummary(String)
+    /// When deep link returns after login via the web flows
+    case codeAfterWebFlowLogin(String, codeVerifier: String, shouldPersistUser: Bool)
 }
 
-extension AppLaunchData {
-    enum QueryKey: String {
+public extension AppLaunchData {
+    internal enum QueryKey: String {
         case code
         case persistUser = "persist-user"
+        case state
     }
     /**
      Initializes this object if url is a valid deep link.
 
      - parameter url: The url you get through `UIApplicationDelegate.application(_:url:options:)`.
      */
-    public init?(launchOptions: [AnyHashable: Any]?, clientConfiguration: ClientConfiguration) {
+    init?(launchOptions: [AnyHashable: Any]?, clientConfiguration: ClientConfiguration) {
         guard let maybeURL = launchOptions?[UIApplication.LaunchOptionsKey.url], let url = maybeURL as? URL else {
             return nil
         }
@@ -45,7 +49,7 @@ extension AppLaunchData {
 
      - parameter url: The url you get through `UIApplicationDelegate.application(_:url:options:)`.
      */
-    public init?(deepLink url: URL, clientConfiguration: ClientConfiguration) {
+    init?(deepLink url: URL, clientConfiguration: ClientConfiguration) {
         guard let payload = clientConfiguration.parseRedirectURL(url) else {
             return nil
         }
@@ -55,13 +59,26 @@ extension AppLaunchData {
     /**
      Takes a redirect payload and creates the approprriate app launch information
      */
-    public init?(payload: ClientConfiguration.RedirectPayload) {
+    init?(payload: ClientConfiguration.RedirectPayload) {
         // Note: make sure to validate an variable input when possible
 
         // See if there's an auth code here first, then we have one of the code related deep links
         if let code = payload.queryComponents[QueryKey.code.rawValue]?.first {
             guard !code.isEmpty, code.range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil else {
                 return nil
+            }
+
+            // Check if coming back after web flow login
+            if let storedData = Settings.value(forKey: ClientConfiguration.RedirectInfo.WebFlowLogin.settingsKey) as? Data,
+               let deserialised = try? JSONDecoder().decode(WebSessionRoutes.WebFlowData.self, from: storedData) {
+                let receivedState = payload.queryComponents[QueryKey.state.rawValue]?.first
+                if deserialised.state != receivedState {
+                    return nil
+                }
+
+                Settings.clearWhere(prefix: ClientConfiguration.RedirectInfo.WebFlowLogin.settingsKey)
+                self = .codeAfterWebFlowLogin(code, codeVerifier: deserialised.codeVerifier, shouldPersistUser: deserialised.shouldPersistUser)
+                return
             }
 
             // No path, means a deeplink from a login where the email address was not verified previously

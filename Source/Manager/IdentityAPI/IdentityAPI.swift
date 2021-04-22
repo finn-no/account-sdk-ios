@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -20,9 +20,9 @@ class IdentityAPI {
                                              completion: @escaping ((Result<T, ClientError>) -> Void)) {
         let block: ((Result<T, ClientError>) -> Void) = { [weak self] result in
             if retry > 0,
-                case let .failure(.networkingError(error as NSError)) = result,
-                (error.domain == NSURLErrorDomain && error.code == NSURLErrorNetworkConnectionLost) ||
-                (error.domain == NSPOSIXErrorDomain && error.code == POSIXError.ECONNABORTED.rawValue) {
+               case let .failure(.networkingError(error as NSError)) = result,
+               (error.domain == NSURLErrorDomain && error.code == NSURLErrorNetworkConnectionLost) ||
+               (error.domain == NSPOSIXErrorDomain && error.code == POSIXError.ECONNABORTED.rawValue) {
                 self?.requestWithRetries(retry: retry - 1,
                                          router: router,
                                          formData: formData,
@@ -113,6 +113,7 @@ class IdentityAPI {
                             code: String? = nil,
                             redirectURI: String? = nil,
                             scope: [String]? = nil,
+                            codeVerifier: String? = nil,
                             completion: @escaping ((Result<TokenData, ClientError>) -> Void)) {
         let formData: [String: String?] = [
             "client_id": clientID,
@@ -124,6 +125,7 @@ class IdentityAPI {
             "code": code,
             "redirect_uri": redirectURI,
             "scope": scope?.trimmed().joined(separator: " "),
+            "code_verifier": codeVerifier,
         ]
 
         requestWithRetries(router: .oauthToken, formData: formData, completion: completion)

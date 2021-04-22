@@ -1,12 +1,12 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import LocalAuthentication
 import UIKit
 
-private struct Constants {
+private enum Constants {
     static let BiometricsSecretsLabel = "com.schibsted.account.biometrics.secrets"
     static let EmailStorageLabel = "com.schibsted.account.user.email"
 }
@@ -40,16 +40,20 @@ class PasswordCoordinator: AuthenticationCoordinator, RouteHandler {
 
         let localizedReasonString = viewModel.biometricsPrompt.replacingOccurrences(of: "$0", with: input.identifier.normalizedString)
 
-        guard let password = self.getPasswordFromKeychain(for: input.identifier, localizedReasonString) else {
+        guard let password = getPasswordFromKeychain(for: input.identifier, localizedReasonString) else {
             showPasswordView(for: input.identifier, on: input.loginFlowVariant, scopes: input.scopes, completion: completion)
             return
         }
+
+        let useSharedWebCredentials = configuration.enableSharedWebCredentials
+
         submit(
             password: password,
             for: input.identifier,
             on: input.loginFlowVariant,
             persistUser: true,
             scopes: input.scopes,
+            useSharedWebCredentials: useSharedWebCredentials,
             completion: completion
         )
     }
@@ -96,10 +100,17 @@ extension PasswordCoordinator {
             localizationBundle: configuration.localizationBundle
         )
         let viewController = PasswordViewController(configuration: configuration, navigationSettings: navigationSettings, viewModel: viewModel)
+        let useSharedWebCredentials = configuration.enableSharedWebCredentials
         viewController.didRequestAction = { [weak self] action in
             switch action {
             case let .enter(password, shouldPersistUser):
-                self?.submit(password: password, for: identifier, on: loginFlowVariant, persistUser: shouldPersistUser, scopes: scopes, completion: completion)
+                self?.submit(password: password,
+                             for: identifier,
+                             on: loginFlowVariant,
+                             persistUser: shouldPersistUser,
+                             scopes: scopes,
+                             useSharedWebCredentials: useSharedWebCredentials,
+                             completion: completion)
             case .changeIdentifier:
                 completion(.changeIdentifier)
             case .forgotPassword:
@@ -134,6 +145,7 @@ extension PasswordCoordinator {
         on loginFlowVariant: LoginMethod.FlowVariant,
         persistUser: Bool,
         scopes: [String],
+        useSharedWebCredentials: Bool,
         completion: @escaping (Output) -> Void
     ) {
         if loginFlowVariant == .signup {
@@ -142,7 +154,8 @@ extension PasswordCoordinator {
         }
 
         presentedViewController?.startLoading()
-        signinInteractor.login(username: identifier, password: password, scopes: scopes) { [weak self] result in
+        signinInteractor.login(username: identifier, password: password, scopes: scopes,
+                               useSharedWebCredentials: useSharedWebCredentials) { [weak self] result in
             self?.presentedViewController?.endLoading()
 
             switch result {
@@ -257,7 +270,7 @@ extension PasswordCoordinator {
         var queryResult: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         if status == noErr, let qresult = queryResult as? Data, let password = String(data: qresult as Data, encoding: .utf8) {
-            configuration.tracker?.interaction(.submit, with: .passwordInput, additionalFields: [.customLoginType(self.biometryType)])
+            configuration.tracker?.interaction(.submit, with: .passwordInput, additionalFields: [.customLoginType(biometryType)])
             return password
         } else {
             return nil
@@ -267,9 +280,9 @@ extension PasswordCoordinator {
     private func canUseBiometrics() -> Bool {
         let context = LAContext()
         guard #available(iOS 11.3, *),
-            configuration.enableBiometrics,
-            context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil),
-            context.biometryType == .touchID || context.biometryType == .faceID
+              configuration.enableBiometrics,
+              context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil),
+              context.biometryType == .touchID || context.biometryType == .faceID
         else {
             return false
         }
@@ -300,12 +313,12 @@ extension PasswordCoordinator {
             return
         }
         guard #available(iOS 11.3, *),
-            let accessControl = SecAccessControlCreateWithFlags(
-                kCFAllocatorDefault,
-                kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-                .biometryCurrentSet,
-                nil
-            ) else {
+              let accessControl = SecAccessControlCreateWithFlags(
+                  kCFAllocatorDefault,
+                  kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+                  .biometryCurrentSet,
+                  nil
+              ) else {
             return
         }
         var dictionary = [String: Any]()

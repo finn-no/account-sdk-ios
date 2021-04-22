@@ -1,7 +1,9 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
+
+import UIKit
 
 class TextField: UITextField, Themeable {
     var theme: IdentityUITheme?
@@ -53,6 +55,7 @@ class TextField: UITextField, Themeable {
             let w = clearImage.size.width
             let h = clearImage.size.height
             clearButton = UIButton(frame: CGRect(x: 0, y: 0, width: w + clearButtonRightSpacing, height: h))
+            clearButton?.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: theme.geometry.groupedViewSpacing)
             clearButton?.setImage(clearImage, for: .normal)
             clearButton?.isHidden = true
             clearButton?.addTarget(self, action: #selector(clearButtonDidTouchUpInside(_:)), for: .touchUpInside)
@@ -148,7 +151,7 @@ class TextField: UITextField, Themeable {
     }
 
     @discardableResult
-    public override func becomeFirstResponder() -> Bool {
+    override public func becomeFirstResponder() -> Bool {
         let result = super.becomeFirstResponder()
         if result {
             applyFocusedStyle()
@@ -157,7 +160,7 @@ class TextField: UITextField, Themeable {
     }
 
     @discardableResult
-    public override func resignFirstResponder() -> Bool {
+    override public func resignFirstResponder() -> Bool {
         // textFieldDidEndEditing is called during the course of super.resignFirstResponder
         // apply the style early so that textFieldDidEndEditing is able to change it
         applyUnfocusedStyle()
@@ -168,7 +171,7 @@ class TextField: UITextField, Themeable {
         return result
     }
 
-    public override var isEnabled: Bool {
+    override public var isEnabled: Bool {
         get { return super.isEnabled }
         set {
             if newValue {

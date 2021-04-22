@@ -1,9 +1,10 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
 ///
 public enum StyleIconKind: String {
@@ -25,11 +26,19 @@ public enum StyleIconKind: String {
     case infoPlaceholder = "placeholder"
     ///
     case circularInfo = "circular-info"
+    ///
+    case passwordShow = "password-show"
+    ///
+    case passwordHide = "password-hide"
 }
 
 extension UIImage {
     convenience init?(icon: StyleIconKind) {
-        let bundle = Bundle(for: IdentityManager.self)
+        #if SWIFT_PACKAGE
+            let bundle = Bundle.module
+        #else
+            let bundle = Bundle(for: IdentityManager.self)
+        #endif
         self.init(named: icon.rawValue, in: bundle, compatibleWith: nil)
     }
 }

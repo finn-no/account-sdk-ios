@@ -1,11 +1,12 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
 import Foundation
+import UIKit
 
-private struct Constants {
+private enum Constants {
     static let BiometricsSettingsKey = "Identity.useBiometrics"
 }
 
@@ -32,6 +33,8 @@ public struct IdentityUIConfiguration {
         }
         return value
     }
+    /// This determines whether the user wants to use shared web credentials, defaults to false
+    public let enableSharedWebCredentials: Bool
     /// This will be given the navigationController we use internally before we start presentation incase you want to customize
     /// certain aspects
     public let presentationHook: ((UIViewController) -> Void)?
@@ -40,13 +43,15 @@ public struct IdentityUIConfiguration {
 
     private var _appName: String?
 
+    public let disableWhatsThisButton: Bool
+
     /**
      Some of the UI screens will use the bundle name of your app. Sometimes this is not what you want
      so you can set this to override it
      */
     public var appName: String {
         get {
-            guard let name = self._appName else {
+            guard let name = _appName else {
                 // Try and set from bundle name
                 guard let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String else {
                     preconditionFailure("Could not fetch bundle name. Please set IdentityUIConfiguration.appName")
@@ -70,6 +75,7 @@ public struct IdentityUIConfiguration {
      - parameter localizationBundle: If you have any custom localizations you want to use
      - parameter appName: If you want to customize the app name display in the UI
      - parameter enableBiometrics: If you want to enable authentication using biometrics
+     - parameter enableSharedWebCredentials: If you want to enable shared web credentials.
      */
     public init(
         clientConfiguration: ClientConfiguration,
@@ -77,6 +83,8 @@ public struct IdentityUIConfiguration {
         isCancelable: Bool = true,
         isSkippable: Bool = false,
         enableBiometrics: Bool = false,
+        enableSharedWebCredentials: Bool = false,
+        disableWhatsThisButton: Bool = false,
         presentationHook: ((UIViewController) -> Void)? = nil,
         tracker: TrackingEventsHandler? = nil,
         localizationBundle: Bundle? = nil,
@@ -89,7 +97,9 @@ public struct IdentityUIConfiguration {
         self.presentationHook = presentationHook
         self.localizationBundle = localizationBundle ?? IdentityUI.bundle
         self.enableBiometrics = enableBiometrics
+        self.enableSharedWebCredentials = enableSharedWebCredentials
         self.tracker = tracker
+        self.disableWhatsThisButton = disableWhatsThisButton
         if let appName = appName {
             self.appName = appName
         }
@@ -112,6 +122,8 @@ public struct IdentityUIConfiguration {
         isCancelable: Bool? = nil,
         isSkippable: Bool? = nil,
         enableBiometrics: Bool? = nil,
+        enableSharedWebCredentials: Bool? = nil,
+        disableWhatsThisButton: Bool? = nil,
         presentationHook: ((UIViewController) -> Void)? = nil,
         tracker: TrackingEventsHandler? = nil,
         localizationBundle: Bundle? = nil,
@@ -123,6 +135,8 @@ public struct IdentityUIConfiguration {
             isCancelable: isCancelable ?? self.isCancelable,
             isSkippable: isSkippable ?? self.isSkippable,
             enableBiometrics: enableBiometrics ?? self.enableBiometrics,
+            enableSharedWebCredentials: enableSharedWebCredentials ?? self.enableSharedWebCredentials,
+            disableWhatsThisButton: disableWhatsThisButton ?? self.disableWhatsThisButton,
             presentationHook: presentationHook ?? self.presentationHook,
             tracker: tracker ?? self.tracker,
             localizationBundle: localizationBundle ?? self.localizationBundle,
@@ -147,6 +161,7 @@ extension IdentityUIConfiguration: CustomStringConvertible {
             + "\n\tskippable: \(isSkippable), "
             + "\n\tenableBiometrics: \(enableBiometrics), "
             + "\n\tuseBiometrics: \(useBiometrics), "
+            + "\n\tenableSharedWebCredentials: \(enableSharedWebCredentials), "
             + "\n\ttracker: \(tracker != nil), "
             + "\n\tclient: \(clientConfiguration)\n)"
     }

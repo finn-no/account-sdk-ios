@@ -1,5 +1,5 @@
 //
-// Copyright 2011 - 2019 Schibsted Products & Technology AS.
+// Copyright 2011 - 2020 Schibsted Products & Technology AS.
 // Licensed under the terms of the MIT license. See LICENSE in the project root.
 //
 
@@ -12,7 +12,7 @@ enum IdentifierViewControllerAction {
     case skip
 }
 
-private struct Constants {
+private enum Constants {
     static let EmailStorageLabel = "com.schibsted.account.user.email"
 }
 
@@ -24,6 +24,7 @@ class IdentifierViewController: IdentityUIViewController {
             whastThisButton.setTitle(viewModel.whatsThis, for: .normal)
             whastThisButton.titleLabel?.font = theme.fonts.info
             whastThisButton.contentEdgeInsets.top = 1
+            whastThisButton.isHidden = configuration.disableWhatsThisButton
         }
     }
     @IBOutlet var backgroundView: UIView! {
@@ -169,6 +170,8 @@ class IdentifierViewController: IdentityUIViewController {
             showPhoneNumber()
             countryCode.text = prefilledPhoneComponents.countryCode
             phoneNumber.text = prefilledPhoneComponents.number
+        case .passwordWithSharedWebCredentials:
+            fatalError()
         }
 
         skipButton.isHidden = !self.configuration.isSkippable
@@ -185,7 +188,7 @@ class IdentifierViewController: IdentityUIViewController {
 
         switch self.viewModel.loginMethod.identifierType {
         case .email:
-            guard let text = self.emailAddress.text?.trimmingCharacters(in: .whitespaces) else {
+            guard let text = emailAddress.text?.trimmingCharacters(in: .whitespaces) else {
                 return
             }
             guard let email = EmailAddress(text) else {
